@@ -240,28 +240,6 @@ int calculateWinner()
 		gameOver();
 	}
 
-
-
-	//SEE IF ITS A DRAW!
-
-	/*else if (
-	table[0][0] != '1' &&
-	table[0][1] != '2' &&
-	table[0][2] != '3' &&
-	table[1][0] != '4' &&
-	table[1][1] != '5' &&
-	table[1][2] != '6' &&
-	table[2][0] != '7' &&
-	table[2][1] != '8' &&
-	table[2][2] != '9')
-		{
-		system("cls");
-		std::cout << "its a draw!";
-		Sleep(5000);
-		gameOver();*/
-//}
-
-
 	return 0;
 }
 
@@ -329,6 +307,8 @@ break;
 	}
 }
 
+
+//THIS CHANGES THE ARRAY BACK TO THE "DEFAULT" VALUES, AND LETS THE PLAYER PLAY AGAIN.
 void tableReset()
 {
 table[0][0] = '1';
@@ -351,6 +331,7 @@ void clearCin()
 	std::cin.ignore(32767, '\n');
 }
 
+//CHECKS IF THE NUMBERS ARE SOMETHING ELSE THAN THEIR DESIGNATED NUMBER FROM THE ORIGINAL ARRAY. WILL THEN END THE GAME AS A DRAW!
 void tableFull()
 {
 
@@ -369,12 +350,6 @@ void tableFull()
 		std::cout << "its a draw!";
 		Sleep(5000);
 		gameOver();
-
-
-
-
-
-
 	}
 }
 
