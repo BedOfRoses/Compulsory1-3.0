@@ -1,19 +1,23 @@
 #include <iostream>
 #include <Windows.h>
 
-void playBoard(); //Brettet
-void gaming(); //Hvem som legger inn
-int calculateWinner(); //Hvem vant
-void menu(); //En fakkibgns meny
-void gameOver();
+void playBoard();		//THIS SIMPLY PRINTS OUT THE TABLE FROM LINE 20 TO LINE 24 IN THIS CODE!
+void gaming();			//THIS IS THE ACTUALL GAME. TURNS BETWEEN PLAYER 1 AND PLAYER 2.
+int calculateWinner();	//THIS CHECKS IF A CERTAIN CONDITION BETWEEN PLAYER 1 AND PLAYER 2 OCCURS, THAT A PLAYER HAS WON!
+void menu();			//THE STARTING MENU, LETTING YOU SELECT THE GAMEMODE.
+void gameOver();		//ENDS THE GAME AND ALLOWS USER TO SELECT IF THEY WANT TO PLAY AGAIN OR NO.
+void tableReset();		//UPON THE GAMEOVER, IF YOU SELECT YES. THIS WILL RESET THE NUMBERS OF THE ARRAY AND LET YOU PLAY AGAIN!
+void clearCin();		//CLEARS PLAYER INPUT AND THE BOARD
+
+void tableFull();
 
 
-//2 players
+//2 PLAYERS
 void playerOne();
 void playerTwo();
 
 
-	//The arraytable of tictactoe.
+	//THE ARRAYTABLE OF TICTACTOE
 const int row = { 3 };
 const int col = { 3 };
 
@@ -29,9 +33,9 @@ char table[row][col] = {
 //THE MAIN FUNCTION
 int main() {
 
-	//RUNS MENU
+	//RUNS THE MENU
 	menu();
-
+	//gameOver();
 
 
 	return 0;
@@ -39,7 +43,7 @@ int main() {
 
 
 
-//PLAYBOARD FUNCTION COPIES THE ARRAY FROM TOP, AND PRINTS THE TABLE.
+//PLAYBOARD FUNCTION COPIES THE ARRAY FROM LINE 20 TO LINE 24, AND PRINTS OUT THE TABLE.
 void playBoard()
 {
 	//system("color a");
@@ -65,20 +69,21 @@ void playBoard()
 
 }
 
-//Player1 and 2, turns-----
+//PLAYER 1 AND PLAYER 2, turns-----
 //USES THE PLAYBOARD FUNCTION TO PRINT IN THE CHARACTERS X AND O FROM 2 DIFFERENT PLAYERS.
 void gaming()
 {
 	
 
 	//ROUNDS TO PLAY, AND ITS THE AMOUNT OF HOW BIG THE TIC TAC TOE TABLE IS. WHICH IS 9.
-	for (int i{}; i < 10; i++)	//0-9 aka 9 rounds.
+	for (int i{}; i < 9; i++)	//0-9 aka 9 rounds.
 	{
 
 		//oddetall = player1
 		if (i % 2 == 0) {
 			playerOne();
 			calculateWinner();
+			tableFull();
 		}
 		//partall = player2
 		else {
@@ -91,7 +96,7 @@ void gaming()
 }
 
 
-//Checks table if there is three-in-a-row
+//CHECKS TABLE IF THERE IS THREE-IN-A-ROW
 int calculateWinner()
 {
 	//PLAYER ONE
@@ -237,11 +242,31 @@ int calculateWinner()
 
 
 
+	//SEE IF ITS A DRAW!
+
+	/*else if (
+	table[0][0] != '1' &&
+	table[0][1] != '2' &&
+	table[0][2] != '3' &&
+	table[1][0] != '4' &&
+	table[1][1] != '5' &&
+	table[1][2] != '6' &&
+	table[2][0] != '7' &&
+	table[2][1] != '8' &&
+	table[2][2] != '9')
+		{
+		system("cls");
+		std::cout << "its a draw!";
+		Sleep(5000);
+		gameOver();*/
+//}
+
+
 	return 0;
 }
 
 
-//THIS MENU LETS USER SELECT A GAMEMODE.
+//THIS MENU LETS USER SELECT A GAMEMODE. AND STARTS THE GAME WHEN PLAYER ENTERS THE CHARACTER '1'.
 void menu()
 {
 	char chooseGamemode{};
@@ -256,7 +281,6 @@ void menu()
 
 	case '1':
 		system("cls");
-		//playBoard();
 		gaming();
 		break;
 	default:
@@ -270,6 +294,8 @@ void menu()
 
 }
 
+
+//IF THERE IS THREE IN A ROW, THE GAME WILL END AND SEND YOU HERE. THIS WILL LET THE USER SELECT IF THEY WANT TO PLAY OR NOT.
 void gameOver()
 {
 	char yesOrNoMenuOrExit{};
@@ -285,8 +311,10 @@ void gameOver()
 	std::cin >> yesOrNoMenuOrExit;
 	switch (yesOrNoMenuOrExit) {
 	case 'y': case 'Y':
-		gaming();
-		break;
+		clearCin();
+		tableReset();
+gaming();
+break;
 	case 'n': case 'N':
 		system("cls");
 		std::cout << "Thanks for playing!";
@@ -294,15 +322,64 @@ void gameOver()
 		break;
 	case 'm': case 'M':
 		menu();
-		break;
+break;
 	case 'e': case 'E':
 		exit(0);
 		break;
 	}
 }
 
+void tableReset()
+{
+table[0][0] = '1';
+table[0][1] = '2';
+table[0][2] = '3';
+table[1][0] = '4';
+table[1][1] = '5';
+table[1][2] = '6';
+table[2][0] = '7';
+table[2][1] = '8';
+table[2][2] = '9';
 
-//2 Players
+
+
+}
+
+void clearCin()
+{
+	std::cin.clear();
+	std::cin.ignore(32767, '\n');
+}
+
+void tableFull()
+{
+
+	if (
+		table[0][0] != '1' &&
+		table[0][1] != '2' &&
+		table[0][2] != '3' &&
+		table[1][0] != '4' &&
+		table[1][1] != '5' &&
+		table[1][2] != '6' &&
+		table[2][0] != '7' &&
+		table[2][1] != '8' &&
+		table[2][2] != '9')
+	{
+		system("cls");
+		std::cout << "its a draw!";
+		Sleep(5000);
+		gameOver();
+
+
+
+
+
+
+	}
+}
+
+
+//2 PLAYERS
 
 void playerOne()
 {
@@ -318,39 +395,81 @@ void playerOne()
 	switch (player1)
 	{
 	case '1':
-		table[0][0] = 'O';
+		if (table[0][0] == '1') {
+			table[0][0] = 'O';
+		}
+		else {
+			playerOne();
+		}
 		break;
 
 	case '2':
-		table[0][1] = 'O';
+		if (table[0][1] == '2') {
+			table[0][1] = 'O';
+		}
+		else {
+			playerOne();
+		}
 		break;
 
 	case '3':
-		table[0][2] = 'O';
+		if (table[0][2] == '3') {
+			table[0][2] = 'O';
+		}
+		else {
+			playerOne();
+		}
 		break;
 
 	case '4':
-		table[1][0] = 'O';
+		if (table[1][0] == '4') {
+			table[1][0] = 'O';
+		}
+		else {
+			playerOne();
+		}
 		break;
 
 	case '5':
-		table[1][1] = 'O';
+		if (table[1][1] == '5') {
+			table[1][1] = 'O';
+		}
+		else {
+			playerOne();
+		}
 		break;
 
 	case '6':
-		table[1][2] = 'O';
+		if (table[1][2] == '6') {
+			table[1][2] = 'O';
+		}
+		else {
+			playerOne();
+		}
 		break;
 
 	case '7':
-		table[2][0] = 'O';
+		if (table[2][0] == '7') {
+			table[2][0] = 'O';
+		}
+		else {
+			playerOne();
+		}
 		break;
 
 	case '8':
-		table[2][1] = 'O';
+		if (table[2][1] == '8') {
+			table[2][1] = 'O';
+		}
+		else {
+			playerOne();
+		}
 		break;
 
 	case '9':
+		if (table[2][2] == '9') {
 		table[2][2] = 'O';
+		}
 		break;
 
 	default:
@@ -361,7 +480,7 @@ void playerOne()
 void playerTwo()
 {
 	char player2{};
-	
+
 	system("cls");
 	system("color a");
 	playBoard();
@@ -371,34 +490,89 @@ void playerTwo()
 	switch (player2)
 	{
 	case '1':
-		table[0][0] = 'X';
+		if (table[0][0] == '1') {
+			table[0][0] = 'X';
+		}
+		else {
+			playerTwo();
+		}
 		break;
+
 	case '2':
-		table[0][1] = 'X';
+		if (table[0][1] == '2') {
+			table[0][1] = 'X';
+		}
+		else {
+			playerTwo();
+		}
 		break;
+
 	case '3':
-		table[0][2] = 'X';
+		if (table[0][2] == '3') {
+			table[0][2] = 'X';
+		}
+		else {
+			playerTwo();
+		}
 		break;
+
 	case '4':
-		table[1][0] = 'X';
+		if (table[1][0] == '4') {
+			table[1][0] = 'X';
+		}
+		else {
+			playerTwo();
+		}
 		break;
+
 	case '5':
-		table[1][1] = 'X';
+		if (table[1][1] == '5') {
+			table[1][1] = 'X';
+		}
+		else {
+			playerTwo();
+		}
 		break;
+
 	case '6':
-		table[1][2] = 'X';
+		if (table[1][2] == '6') {
+			table[1][2] = 'X';
+		}
+		else {
+			playerTwo();
+		}
 		break;
+
 	case '7':
-		table[2][0] = 'X';
+		if (table[2][0] == '7') {
+			table[2][0] = 'X';
+		}
+		else {
+			playerTwo();
+		}
 		break;
+
 	case '8':
-		table[2][1] = 'X';
+		if (table[2][1] == '8') {
+			table[2][1] = 'X';
+		}
+		else {
+			playerTwo();
+		}
 		break;
+
 	case '9':
-		table[2][2] = 'X';
+		if (table[2][2] == '9') {
+			table[2][2] = 'X';
+		}
+		else {
+			playerTwo();
+		}
 		break;
+
 	default:
 		break;
 	}
 }
+
 
